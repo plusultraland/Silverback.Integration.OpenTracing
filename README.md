@@ -1,5 +1,7 @@
 # Silverback + Opentracing
 
+Propagates trace information through pub/sub pattern
+
 > Inspired by [this project](https://github.com/yesmarket/MassTransit.OpenTracing)
 
 
