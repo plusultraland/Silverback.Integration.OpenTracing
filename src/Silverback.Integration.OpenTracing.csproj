@@ -2,9 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Alef Carlos</Authors>
+    <PackageTags>opentracing;silverback;distributed trace</PackageTags>
+    <PackageProjectUrl>https://github.com/alefcarlos/Silverback.Integration.OpenTracing</PackageProjectUrl>
+    <Description>PropPropagates trace information through pub/sub patternage</Description>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="GitVersionTask" Version="5.1.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="OpenTracing" Version="0.12.1" />
     <PackageReference Include="Silverback.Integration" Version="2.0.1" />
     <PackageReference Include="Silverback.Integration.Kafka" Version="2.0.1" />
