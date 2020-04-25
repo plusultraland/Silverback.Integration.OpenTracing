@@ -1,5 +1,7 @@
 # Silverback + Opentracing
 
+[![Build Status](https://alefcarlos.visualstudio.com/PlusUltra/_apis/build/status/alefcarlos.Silverback.Integration.OpenTracing?branchName=master)](https://alefcarlos.visualstudio.com/PlusUltra/_build/latest?definitionId=24&branchName=master)
+
 Propagates trace information through pub/sub pattern
 
 > Inspired by [this project](https://github.com/yesmarket/MassTransit.OpenTracing)
