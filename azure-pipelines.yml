@@ -16,6 +16,11 @@ trigger:
     exclude:
     - README.md
 
+
+variables:
+  MSBUILDSINGLELOADCONTEXT: 1
+
+
 jobs:
 - job: Build
   pool:
