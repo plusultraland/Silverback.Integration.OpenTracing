@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>PlusUltra.Silverback.Integration.OpenTracing</PackageId>
     <Authors>Alef Carlos</Authors>
     <PackageTags>opentracing;silverback;distributed trace</PackageTags>
     <PackageProjectUrl>https://github.com/alefcarlos/Silverback.Integration.OpenTracing</PackageProjectUrl>
