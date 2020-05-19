@@ -5,16 +5,17 @@ using OpenTracing;
 using OpenTracing.Propagation;
 using OpenTracing.Tag;
 using OpenTracing.Util;
-using Silverback.Messaging.Broker;
-using Silverback.Messaging.Messages;
+using Silverback.Messaging.Broker.Behaviors;
 
 namespace Silverback.Integration.OpenTracing
 {
     public class ConsumerTracingBehavior : IConsumerBehavior
     {
-        public async Task Handle(RawBrokerEnvelope envelope, RawBrokerMessageHandler next)
+        public async Task Handle(ConsumerPipelineContext context, IServiceProvider serviceProvider, ConsumerBehaviorHandler next)
         {
-            var operationName = $"Consuming Message: {envelope.Endpoint.Name}";
+            var envelope = context.Envelopes.Single();
+            
+            var operationName = $"Consuming Message on topic {envelope.Endpoint.Name}";
 
             ISpanBuilder spanBuilder;
 
@@ -39,9 +40,9 @@ namespace Silverback.Integration.OpenTracing
                 .WithTag(Tags.SpanKind, Tags.SpanKindConsumer)
                 .WithTag("endpoint", envelope.Endpoint.Name);
 
-            using (var scope = spanBuilder.StartActive(true))
+            using (var scope = spanBuilder.StartActive())
             {
-                await next(envelope);
+                await next(context, serviceProvider);
             }
         }
     }

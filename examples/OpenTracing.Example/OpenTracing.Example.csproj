@@ -8,8 +8,8 @@
   <ItemGroup>
     <PackageReference Include="jaeger" Version="0.3.7" />
     <PackageReference Include="OpenTracing" Version="0.12.1" />
-    <PackageReference Include="Silverback.Integration.InMemory" Version="2.0.1" />
-    <PackageReference Include="Silverback.Integration.Kafka" Version="2.0.1" />
+    <PackageReference Include="Silverback.Integration.InMemory" Version="2.1.1" />
+    <PackageReference Include="Silverback.Integration.Kafka" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>

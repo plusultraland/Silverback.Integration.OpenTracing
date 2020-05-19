@@ -6,16 +6,16 @@
     <Authors>Alef Carlos</Authors>
     <PackageTags>opentracing;silverback;distributed trace</PackageTags>
     <PackageProjectUrl>https://github.com/alefcarlos/Silverback.Integration.OpenTracing</PackageProjectUrl>
-    <Description>Propagates trace information through pub/sub patternage</Description>
+    <Description>Propagates trace information through pub/sub pattern</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GitVersionTask" Version="5.2.4">
+    <PackageReference Include="GitVersionTask" Version="5.3.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="OpenTracing" Version="0.12.1" />
-    <PackageReference Include="Silverback.Integration" Version="2.0.1" />
+    <PackageReference Include="Silverback.Integration" Version="2.1.1" />
   </ItemGroup>
 
 

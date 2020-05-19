@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Silverback.Messaging;
 using Silverback.Messaging.Broker;
 using Silverback.Messaging.Configuration;
@@ -34,10 +27,12 @@ namespace OpenTracing.Example
 
             services.AddSilverback()
                     .UseOpenTracing()
-                    .AddScopedSubscriber<SubscribingService>()
-                    .WithInMemoryBroker(options => options
-                            .AddInboundConnector()
-                            .AddOutboundConnector());
+                    .WithConnectionToMessageBroker(b =>{
+                        b.AddInMemoryBroker();
+                        b.AddInboundConnector();
+                        b.AddOutboundConnector();
+                    })
+                    .AddScopedSubscriber<SubscribingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +57,7 @@ namespace OpenTracing.Example
             //Ensure ITracer is initalized
             app.ApplicationServices.GetRequiredService<ITracer>();
 
-            IBroker broker = busConfigurator.Connect(endpoitns =>
+            var broker = busConfigurator.Connect(endpoitns =>
                                 endpoitns
                                     .AddInbound(new KafkaConsumerEndpoint("teste"))
                                     .AddOutbound<WeatherForecast>(new KafkaProducerEndpoint("teste")));
