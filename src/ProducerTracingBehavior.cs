@@ -2,16 +2,17 @@ using System.Threading.Tasks;
 using OpenTracing.Propagation;
 using OpenTracing.Tag;
 using OpenTracing.Util;
-using Silverback.Messaging.Broker;
-using Silverback.Messaging.Messages;
+using Silverback.Messaging.Broker.Behaviors;
 
 namespace Silverback.Integration.OpenTracing
 {
     public class ProducerTracingBehavior : IProducerBehavior
     {
-        public async Task Handle(RawBrokerEnvelope envelope, RawBrokerMessageHandler next)
+        public async Task Handle(ProducerPipelineContext context, ProducerBehaviorHandler next)
         {
-            var spanBuilder = GlobalTracer.Instance.BuildSpan($"Publish message {envelope.Endpoint.Name}")
+            var envelope = context.Envelope;
+
+            var spanBuilder = GlobalTracer.Instance.BuildSpan($"Publish message on topic {envelope.Endpoint.Name}")
                    .WithTag(Tags.SpanKind, Tags.SpanKindProducer)
                    .WithTag("endpoint", envelope.Endpoint.Name);
 
@@ -22,7 +23,7 @@ namespace Silverback.Integration.OpenTracing
                    BuiltinFormats.TextMap,
                    new SilverbackTextMapInjectAdapter(envelope));
 
-                await next(envelope);
+                await next(context);
             }
         }
     }

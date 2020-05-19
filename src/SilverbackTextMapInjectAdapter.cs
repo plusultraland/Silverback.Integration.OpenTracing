@@ -9,9 +9,9 @@ namespace Silverback.Integration.OpenTracing
 {
     public class SilverbackTextMapInjectAdapter : ITextMap
     {
-        private RawBrokerEnvelope envelope;
+        private IOutboundEnvelope envelope;
 
-        public SilverbackTextMapInjectAdapter(RawBrokerEnvelope envelope)
+        public SilverbackTextMapInjectAdapter(IOutboundEnvelope envelope)
         {
             this.envelope = envelope;
         }
