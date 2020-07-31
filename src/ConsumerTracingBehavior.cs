@@ -13,14 +13,7 @@ namespace Silverback.Integration.OpenTracing
     {
         public async Task Handle(ConsumerPipelineContext context, IServiceProvider serviceProvider, ConsumerBehaviorHandler next)
         {
-            var envelope = context.Envelopes.SingleOrDefault();
-
-            if (GlobalTracer.Instance == null || envelope == null)
-            {
-                await next(context, serviceProvider);
-
-                return;
-            }
+            var envelope = context.Envelopes.Single();
 
             var operationName = $"Consuming Message on topic {envelope.Endpoint.Name}";
 

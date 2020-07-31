@@ -10,7 +10,7 @@ namespace Silverback.Integration.OpenTracing
     {
         public async Task Handle(ProducerPipelineContext context, ProducerBehaviorHandler next)
         {
-            if (GlobalTracer.Instance == null || context.Envelope == null)
+            if (GlobalTracer.Instance?.ActiveSpan == null)
             {
                 await next(context);
 
