@@ -13,8 +13,15 @@ namespace Silverback.Integration.OpenTracing
     {
         public async Task Handle(ConsumerPipelineContext context, IServiceProvider serviceProvider, ConsumerBehaviorHandler next)
         {
-            var envelope = context.Envelopes.Single();
-            
+            var envelope = context.Envelopes.SingleOrDefault();
+
+            if (GlobalTracer.Instance == null || envelope == null)
+            {
+                await next(context, serviceProvider);
+
+                return;
+            }
+
             var operationName = $"Consuming Message on topic {envelope.Endpoint.Name}";
 
             ISpanBuilder spanBuilder;
@@ -40,7 +47,7 @@ namespace Silverback.Integration.OpenTracing
                 .WithTag(Tags.SpanKind, Tags.SpanKindConsumer)
                 .WithTag("endpoint", envelope.Endpoint.Name);
 
-            using (var scope = spanBuilder.StartActive())
+            using (spanBuilder.StartActive())
             {
                 await next(context, serviceProvider);
             }
