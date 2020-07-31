@@ -10,18 +10,25 @@ namespace Silverback.Integration.OpenTracing
     {
         public async Task Handle(ProducerPipelineContext context, ProducerBehaviorHandler next)
         {
+            if (GlobalTracer.Instance?.ActiveSpan == null)
+            {
+                await next(context);
+
+                return;
+            }
+
             var envelope = context.Envelope;
 
             var spanBuilder = GlobalTracer.Instance.BuildSpan($"Publish message on topic {envelope.Endpoint.Name}")
                    .WithTag(Tags.SpanKind, Tags.SpanKindProducer)
                    .WithTag("endpoint", envelope.Endpoint.Name);
 
-            using (var scope = spanBuilder.StartActive())
+            using (spanBuilder.StartActive())
             {
                 GlobalTracer.Instance.Inject(
-                   GlobalTracer.Instance.ActiveSpan.Context,
-                   BuiltinFormats.TextMap,
-                   new SilverbackTextMapInjectAdapter(envelope));
+                    GlobalTracer.Instance.ActiveSpan.Context,
+                    BuiltinFormats.TextMap,
+                    new SilverbackTextMapInjectAdapter(envelope));
 
                 await next(context);
             }

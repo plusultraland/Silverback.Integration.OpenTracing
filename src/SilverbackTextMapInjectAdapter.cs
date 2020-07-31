@@ -9,11 +9,11 @@ namespace Silverback.Integration.OpenTracing
 {
     public class SilverbackTextMapInjectAdapter : ITextMap
     {
-        private IOutboundEnvelope envelope;
+        private readonly IOutboundEnvelope _envelope;
 
         public SilverbackTextMapInjectAdapter(IOutboundEnvelope envelope)
         {
-            this.envelope = envelope;
+            _envelope = envelope;
         }
 
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
@@ -24,7 +24,7 @@ namespace Silverback.Integration.OpenTracing
 
         public void Set(string key, string value)
         {
-            envelope.Headers.AddOrReplace(key, value);
+            _envelope.Headers.AddOrReplace(key, value);
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
